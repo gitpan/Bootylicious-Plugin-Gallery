@@ -8,7 +8,7 @@ use base 'Mojo::Base';
 use Digest::MD5 qw( md5_hex );
 use Image::Magick::Thumbnail::Fixed;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 my %content_types = (
     'jpg'  => 'image/jpeg',
@@ -36,7 +36,7 @@ sub hook_finalize {
     return unless $path =~ /^\/articles/;
 
     $c->app->log->debug('imagetypes ' . $self->imagetypes);
-    my $publicdir = $c->app->home->rel_dir($c->stash('config')->{publicdir});
+    my $publicdir = $c->app->home->rel_dir(main::config('publicdir'));
 
     my $article = $c->stash('article');
 
@@ -194,12 +194,9 @@ sub _find_images {
 1;
 __DATA__
 
-@@ gallery.html.epl
-% my $self = shift;
-% my $images = $self->stash('images');
+@@ gallery.html.ep
 % my $count = 1;
-% my $columns =  $self->stash('columns');
-% my $pad = $self->stash('padding') / 2;
+% my $pad = $padding / 2;
 
 <center><table cellpadding='<%= $pad %>'><tr>
 % foreach my $img (@{$images}) {
@@ -221,7 +218,7 @@ Bootylicious::Plugin::Gallery - Gallery plugin for Bootylicious
 
 =head1 VERSION
 
-version 0.05
+version 0.06
 
 =head1 SYNOPSIS
 
